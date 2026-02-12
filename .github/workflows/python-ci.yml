@@ -1,4 +1,4 @@
-name: lab-metrics
+name: python-ci
 on:
   push:
     paths:

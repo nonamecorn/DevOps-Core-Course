@@ -13,6 +13,7 @@ from flask import Flask, jsonify, request
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
+logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
@@ -55,6 +56,7 @@ def get_service():
 
 @app.route("/")
 def index():
+    logger.debug(f"Request: {request.method} {request.path}")
     """Main endpoint - service and system information."""
     return {
         "service": get_service(),
@@ -87,6 +89,7 @@ def get_uptime():
 
 @app.route("/health")
 def health():
+    logger.debug(f"Request: {request.method} {request.path}")
     return jsonify(
         {
             "status": "healthy",
@@ -115,7 +118,5 @@ def internal_error(error):
 
 
 if __name__ == "__main__":
-    logger = logging.getLogger(__name__)
-    logger.info("Application starting...")
-    logger.debug(f"Request: {request.method} {request.path}")
     app.run(host=HOST, port=PORT)
+    logger.info("Application starting...")
